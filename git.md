@@ -146,6 +146,8 @@ git remote -v
 ```sh
 git remote rm origin
 # "删除"为解除本地和远程绑定关系
+git push origin -d dev
+# 删除远程分支
 ```
 
 ### 从远程库克隆
