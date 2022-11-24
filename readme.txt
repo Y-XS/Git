@@ -1,3 +1,7 @@
 first git
 dev branch
-Creating a new branch is quick & simple.
+<<<<<<< HEAD
+Creating a new branch is quick and simple.
+=======
+Create a new branch is quick AND simple
+>>>>>>> feature1
