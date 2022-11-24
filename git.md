@@ -127,12 +127,23 @@ git remote add origin git@github.com:xxx/xxx.git
 # 添加后，远程库的名字就是origin，这是Git默认叫法，也可以更改
 ```
 
+### 拉取远程库
+
+```sh
+git pull origin dev
+# 拉取远程库origin的dev分支
+```
+
+
+
 ### 推送到远程库
 
 ```sh
 git push -u origin master
 # 把当前分支master推送到远程库，
 # -u把本地master和远程master关联起来，只用关联一次
+git push origin b_name
+# 推送分支到对应远程分支
 ```
 
 ### 查看远程库信息
@@ -158,11 +169,19 @@ git clone git@github.com:xxx/xxx.git
 # ssh协议速度最快
 ```
 
+### 建立本地和远程分支关联
+
+```sh
+git branch --set-upstream b_name origin/b_name
+```
+
 
 
 # 分支管理
 
 > 分支之间的跳转，需要保证该分支下工作区、暂存区域分支提交相同，无修改。即 git diff HEAD 无差异
+
+![](imgs/branches.png)
 
 ### 创建分支
 
@@ -194,11 +213,163 @@ git branch
 ```sh
 git merge dev
 # 合并dev到当前分支
+# 如果合并产生冲突，使用git status找到冲突文件，修改后保存提交，解决冲突后自动合并
+git log --graph --pretty=oneline --abbrev-commit
+# 使用带参数的git log可以查看分支合并情况
 ```
+
+```sh
+git log --graph
+#查看分支合并图
+```
+
+> 合并分支时，Git会使用 Fast forward模式，在这种模式下，删除分支后，会丢掉分支信息
+
+```sh
+git merge --no-ff -m"merge with no-ff" dev
+# --no-ff：禁用 Fast forward 模式
+# 这里的-m，因为本次合并要创建一个新的commit，所以加上-m
+```
+
+
 
 ### 删除分支
 
 ```sh
 git branch -d dev
 ```
+
+### Bug分支
+
+```sh
+git stash
+# 暂存工作现场
+```
+
+```sh
+git stash list
+# 查看stash列表
+```
+
+```sh
+git stash pop
+# 恢复并删除该stash
+```
+
+```sh
+git stash apply stash@{0}
+# 恢复指定的stash
+```
+
+```sh
+git cherry-pick commit_id
+# 复制一个特定的提交到当前分支
+```
+
+### Feature分支
+
+> 开发一个新feature，最好新建一个分支
+
+```sh
+git branch -D b_name
+# 强制删除一个没有被合并过的分支
+```
+
+### 多人协作
+
+> 推送远程库失败，可能是远程库有更新，先pull拉取，再解决冲突commit并push
+
+```sh
+git checkout -b dev origin/dev
+# 创建远程origin的dev分支到本地
+git switch -c dev origin/dev
+```
+
+```sh
+git pull origin dev
+# 拉取远程库origin的dev分支
+```
+
+### Rebase
+
+> 把杂乱的分支整理为一条直线
+
+```sh
+git rebase
+```
+
+
+
+# 标签管理
+
+> 标签总是和 commit 挂钩，如果该 commit 既出现在 master 分支，又出现在 dev 分支，则两个分支都可以看到该标签
+
+> 标签是指向commit的死指针，分支是指向commit的活指针
+
+### 创建标签
+
+```sh
+git tag v1.0
+# 默认打在当前分支的最新commit上
+```
+
+```sh
+git tag v0.9 commit_id
+#git log查找commit_id，然后在该id上打tag
+```
+
+```sh
+git tag -a v0.1 -m "version 0.1 released" commit_id
+# -a指定标签名，-m指定说明文字
+```
+
+### 查看标签
+
+```sh
+git tag
+# 查看打的标签
+```
+
+```sh
+git show v0.9
+# 查看标签v0.9的具体信息
+```
+
+### 删除标签
+
+```sh
+git tag -d v0.1
+# 删除标签v0.1
+```
+
+```sh
+git push origin :refs/tags/v0.1
+# 删除远程标签v0.1
+```
+
+### 推送标签
+
+```sh
+git push origin v1.0
+# 推送标签到远程
+```
+
+```sh
+git push origin --tags
+# 推送全部本地标签
+```
+
+# 使用Github
+
+进入项目主页，点击 **Fork** 就在自己账号下克隆了一个该项目的仓库，然后从自己的账号下 clone
+
+![](imgs/Github.png)
+
+如果想更改，改完后往自己仓库推送，也可以在Github上发起一个**pull request**，等待对方接受。
+
+
+
+
+
+
 
