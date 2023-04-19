@@ -142,6 +142,8 @@ git pull origin dev
 git push -u origin master
 # 把当前分支master推送到远程库，
 # -u把本地master和远程master关联起来，只用关联一次
+git push origin local_branch_name:remote_branch_name
+# 推送本地分支到指定远程分支
 git push origin b_name
 # 推送分支到对应远程分支
 ```
